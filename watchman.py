@@ -12,7 +12,7 @@ URL_FILE = os.path.join(BASE_DIR, "urls.txt")
 def load_settings():
     """Loads the Pushbullet Token and URLs from external text files"""
     # 1. Load Token
-    token = "YOUR_TOKEN_HERE"
+    token = "o.mCYlbvRo0A0SmM5Nv24ctxd44TqSgPEq"
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, "r") as f:
             token = f.read().strip()
