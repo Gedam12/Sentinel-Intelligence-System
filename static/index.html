@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentinel AI Dashboard</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { width: 70%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #summaryBox { white-space: pre-wrap; background: #eef; padding: 15px; border-left: 5px solid #007bff; display: none; }
+    </style>
+</head>
+<body>
+    <h1>Sentinel AI Research Assistant</h1>
+    <div class="card">
+        <h3>Scrape & Summarize</h3>
+        <input type="text" id="urlInput" placeholder="Paste URL here...">
+        <button onclick="processUrl()">Analyze</button>
+    </div>
+    <div id="status" style="margin-bottom: 10px; font-weight: bold;"></div>
+    <div class="card" id="summaryContainer">
+        <h3>AI Summary</h3>
+        <div id="summaryBox">Results will appear here...</div>
+    </div>
+    <script>
+        async function processUrl() {
+            const url = document.getElementById("urlInput").value;
+            const status = document.getElementById("status");
+            const summaryBox = document.getElementById("summaryBox");
+            status.innerText = "? Scraping website...";
+            await fetch(`/scrape?url=${encodeURIComponent(url)}`);
+            status.innerText = "?? AI is thinking...";
+            const response = await fetch(`/summarize?url=${encodeURIComponent(url)}`);
+            const data = await response.json();
+            status.innerText = "? Done!";
+            summaryBox.style.display = "block";
+            summaryBox.innerText = data.summary || data.error;
+        }
+    </script>
+</body>
+</html>
